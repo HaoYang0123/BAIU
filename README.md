@@ -32,4 +32,24 @@ The network structure of BAIU
 ## Training new models
 To train BERT models:
 ```bash
+#!/bin/bash
+
+set -x
+cd nlp_kdd
+kdd_data_root=$1  # kdd_2012/track2
+out_model_root=$2  # ./models
+
+nlp_path="${kdd_data_root}/titleid_tokensid.txt;${kdd_data_root}/descriptionid_tokensid.txt;${kdd_data_root}/queryid_tokensid.txt"
+python -u train.py \
+    --title-path $nlp_path \
+    --tokenid2id-path ./tokenid2bertid.json \
+    --batch-size 64 \
+    --epoches 1 \
+    --bert-model bert-base-uncased \
+    --model-folder ${out_model_root} \
+    --learning-rate 2e-5 \
+    --mask-txt-ratio 0.1 \
+    --max-mask-num 3 \
+    --max-seq-len 100 \
+    --print-freq 10
 ```
