@@ -1,9 +1,6 @@
-
-
 from sklearn.metrics import log_loss, roc_auc_score
 import numpy as np
 import sys
-
 
 
 inpath = "./pred.txt"
