@@ -95,4 +95,18 @@ python -u run_classification_kdd_wd_bert.py ${train_path} -1 ${outpath}
 python -u run_classification_kdd_xdfm_bert.py ${train_path} -1 ${outpath}
 ```
 
+Step4. To evaluate the AUC and RIG 
+```bash
+#!/bin/bash
 
+set -x
+
+cd evaluate
+inpath=$1  # ./pred.txt
+
+# to get the AUC and RIG on all data
+python -u get_auc.py ${inpath}
+
+# to get the AUC and RIG on tail data
+python -u get_auc.py ${inpath} 10
+```
