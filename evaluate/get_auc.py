@@ -6,7 +6,7 @@ import sys
 
 
 
-inpath = "../../code/DeepCTR-Torch/examples/pred_item_user_query.txt"
+inpath = "./pred.txt"
 if len(sys.argv)>1:
     inpath = sys.argv[1]
 adpath = 'adid2num.txt'
