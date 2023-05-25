@@ -30,7 +30,7 @@ The network structure of BAIU
 
 
 ## Training new models
-To train BERT models:
+Step1. To train BERT models with LM loss, note that you have downloaded the BAIU NLP features, then Step1 and Step2 are not needed: 
 ```bash
 #!/bin/bash
 
@@ -52,4 +52,33 @@ python -u train.py \
     --max-mask-num 3 \
     --max-seq-len 100 \
     --print-freq 10
+```
+Step2. To predict BAIU NLP features:
+```bash
+#!/bin/bash
+
+set -x
+cd nlp_kdd
+kdd_data_root=$1  # kdd_2012/track2
+model_path=$2  # ./models/nlp_lm_checkpoint_0.pt
+out_nlp_feature_root=$3  # ./embedding/[title/description/query]
+
+nlp_path="${kdd_data_root}/titleid_tokensid.txt"
+python -u predict_embedding.py \
+    --title-path ${nlp_path} \
+    --tokenid2id-path ./tokenid2bertid.json \
+    --batch-size 128 \
+    --epoches 1 \
+    --bert-model bert-base-uncased \
+    --checkpoint-path ${model_path} \
+    --out-folder ${out_nlp_feature_root} \
+    --mask-txt-ratio 0.1 \
+    --max-mask-num 3 \
+    --max-seq-len 100 \
+    --print-freq 10
+
+```
+
+Step3. To train CTR model with NLP features:
+```bash
 ```
