@@ -18,7 +18,7 @@ We recommended the following dependencies.
 
 The network structure of BAIU
 
-<img src="https://github.com/HaoYang0123/BAIU/blob/main/workflow.png" width="745", alt="workflow" />
+<img src="https://github.com/HaoYang0123/BAIU/blob/main/workflow.png" width="745" alt="workflow" />
 
 
 ## Download data
