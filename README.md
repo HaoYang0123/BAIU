@@ -63,7 +63,7 @@ kdd_data_root=$1  # kdd_2012/track2
 model_path=$2  # ./models/nlp_lm_checkpoint_0.pt
 out_nlp_feature_root=$3  # ./embedding/[title/description/query]
 
-nlp_path="${kdd_data_root}/titleid_tokensid.txt"
+nlp_path="${kdd_data_root}/titleid_tokensid.txt" # Note that: there are three NLP features: title/description/query, then you need run this script three times.
 python -u predict_embedding.py \
     --title-path ${nlp_path} \
     --tokenid2id-path ./tokenid2bertid.json \
@@ -81,4 +81,18 @@ python -u predict_embedding.py \
 
 Step3. To train CTR model with NLP features:
 ```bash
+#!/bin/bash
+
+set -x
+
+train_path=$1  # kdd_2012/track2/training.csv
+outpath=$2     # ./pred.txt
+
+# Run Wide & Deep model
+python -u run_classification_kdd_wd_bert.py ${train_path} -1 ${outpath}
+
+# Run xDeepFM model
+python -u run_classification_kdd_xdfm_bert.py ${train_path} -1 ${outpath}
 ```
+
+
