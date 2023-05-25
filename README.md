@@ -84,7 +84,7 @@ Step3. To train CTR model with NLP features:
 #!/bin/bash
 
 set -x
-
+cd examples
 train_path=$1  # kdd_2012/track2/training.csv
 outpath=$2     # ./pred.txt
 
