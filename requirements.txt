@@ -4,3 +4,8 @@ torchvision==0.9.0
 numpy==1.23.4
 scikit-learn==1.2.1
 transformers==4.21.1
+six==1.16.0
+sentencepiece==0.1.97
+pythainlp==3.1.1
+efficientnet_pytorch==0.7.1
+pytorch_pretrained_bert==0.4.0
