@@ -29,7 +29,7 @@ The network structure of BAIU
 * tf-idf keywords is [here](https://drive.google.com/file/d/1EFnvjOgpji40Q3_78MbLAKKXvudT6BoF/view?usp=share_link).
 
 
-## Training new models
+## Training new models for public KDD data
 Step1. To train BERT models with LM loss, note that you have downloaded the BAIU NLP features, then Step1 and Step2 are not needed: 
 ```bash
 #!/bin/bash
@@ -101,6 +101,8 @@ Step4. To evaluate the AUC and RIG
 
 set -x
 
+
+
 cd evaluate
 inpath=$1  # ./pred.txt
 
@@ -109,4 +111,58 @@ python -u get_auc.py ${inpath}
 
 # to get the AUC and RIG on tail data
 python -u get_auc.py ${inpath} 10
+```
+
+## Train models for Shopee data
+Step1. To train BERT models with LM loss:
+```bash
+set -x
+
+cd ./nlp_sim_public
+
+
+country=BR
+sample_ratio=1.75
+title_path=./sample_data/BR_title_info.txt
+lm_model_folder=./sample_data/models_lm_${country}
+
+bert_name=neuralmind/bert-base-portuguese-cased
+if [[ "$country" == "ID" ]]
+then
+    bert_name=cahya/distilbert-base-indonesian
+elif [[ "$country" == "MY" ]]
+then
+    bert_name=cahya/distilbert-base-indonesian
+elif [[ "$country" == "SG" ]]
+then
+    bert_name=cahya/distilbert-base-indonesian
+elif [[ "$country" == "TW" ]]
+then
+    bert_name=uer/chinese_roberta_L-6_H-768
+elif [[ "$country" == "BR" ]]
+then
+    bert_name=neuralmind/bert-base-portuguese-cased
+elif [[ "$country" == "PH" ]]
+then
+    bert_name=jcblaise/bert-tagalog-base-cased
+elif [[ "$country" == "VN" ]]
+then
+    bert_name=trituenhantaoio/bert-base-vietnamese-uncased
+elif [[ "$country" == "TH" ]]
+then
+    bert_name=monsoon-nlp/bert-base-thai
+fi
+echo ${bert_name}
+
+python -u train_lm.py \
+    --title-path ${title_path} \
+    --batch-size 128 \
+    --sample-ratio ${sample_ratio} \
+    --workers 4 \
+    --epoches 1 \
+    --learning-rate 5e-5 \
+    --model-folder ${lm_model_folder} \
+    --print-freq 10 \
+    --bert-model ${bert_name} \
+    --max-seq-len 50
 ```
