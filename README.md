@@ -26,7 +26,7 @@ The network structure of BAIU
 2. NLP features for KDD public data set can be download from these following links:
 * BAIU NLP features is [here](https://drive.google.com/file/d/1A29WTDiHndC9yRnuCsLtyWSSSAC_gWqG/view?usp=share_link).
 * word2vec embeddings is [here](https://drive.google.com/file/d/1y2IsGhrGK6JN7Obc6BDPJ8eRvtokggN7/view?usp=share_link).
-* tf-idf keywords is [here]().
+* tf-idf keywords is [here](https://drive.google.com/file/d/1EFnvjOgpji40Q3_78MbLAKKXvudT6BoF/view?usp=share_link).
 
 
 ## Training new models
