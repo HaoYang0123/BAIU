@@ -13,7 +13,6 @@ We recommended the following dependencies.
 
 * Python 3.8
 * [PyTorch](http://pytorch.org/) 1.8.0
-* [NumPy](http://www.numpy.org/) 1.23.4
 * Details shown in requirements.txt
 
 The network structure of BAIU
