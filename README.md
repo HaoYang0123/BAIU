@@ -116,6 +116,7 @@ python -u get_auc.py ${inpath} 10
 ## Train models for Shopee data
 Step1. To train BERT models with LM loss:
 ```bash
+#!/bin/bash
 set -x
 
 cd ./nlp_sim_public
@@ -165,4 +166,60 @@ python -u train_lm.py \
     --print-freq 10 \
     --bert-model ${bert_name} \
     --max-seq-len 50
+```
+
+Step2. To predict BAIU NLP features:
+```bash
+#!/bin/bash
+set -x
+
+cd nlp_sim_public
+
+country=BR
+title_path=./sample_data/BR_title_info.txt
+model_path=./sample_data/models_lm_${country}/nlp_lm_checkpoint_0.pt
+out_nlp_feature_folder=./sample_data/item_feat_${country}
+
+bert_name=neuralmind/bert-base-portuguese-cased
+if [[ "$country" == "ID" ]]
+then
+    bert_name=cahya/distilbert-base-indonesian
+elif [[ "$country" == "MY" ]]
+then
+    bert_name=cahya/distilbert-base-indonesian
+elif [[ "$country" == "SG" ]]
+then
+    bert_name=cahya/distilbert-base-indonesian
+elif [[ "$country" == "TW" ]]
+then
+    bert_name=uer/chinese_roberta_L-6_H-768
+elif [[ "$country" == "BR" ]]
+then
+    bert_name=neuralmind/bert-base-portuguese-cased
+elif [[ "$country" == "PH" ]]
+then
+    bert_name=jcblaise/bert-tagalog-base-cased
+elif [[ "$country" == "VN" ]]
+then
+    bert_name=trituenhantaoio/bert-base-vietnamese-uncased
+elif [[ "$country" == "TH" ]]
+then
+    bert_name=monsoon-nlp/bert-base-thai
+fi
+echo ${bert_name}
+
+python -u predict_for_item_speed.py \
+    --title-path ${title_path} \
+    --outfolder ${out_nlp_feature_folder} \
+    --checkpoint-path ${model_path} \
+    --batch-size 512 \
+    --model-flag ori \
+    --workers 6 \
+    --print-freq 10 \
+    --topk 5 \
+    --his-browse-num 30 \
+    --his-add-num 10 \
+    --his-buy-num 10 \
+    --bert-model ${bert_name} \
+    --max-seq-len 120
 ```
