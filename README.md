@@ -121,7 +121,6 @@ set -x
 
 cd ./nlp_sim_public
 
-
 country=BR
 sample_ratio=1.75
 title_path=./sample_data/BR_title_info.txt
@@ -222,4 +221,78 @@ python -u predict_for_item_speed.py \
     --his-buy-num 10 \
     --bert-model ${bert_name} \
     --max-seq-len 120
+```
+
+Step3. To train CTR model with NLP features:
+```bash
+#!/bin/bash
+set -x
+
+cd ./nlp_sim_public
+
+country=BR
+model_path=./sample_data/models_lm_${country}/nlp_lm_checkpoint_0.pt
+title_path=./sample_data/BR_title_info.txt
+ctr_path=./sample_data/BR_ctr_info.txt
+nlp_feature_folder=./sample_data/item_feat_${country}
+pred_out_path=./sample_data/pred.txt
+test_title_path=./sample_data/BR_title_info.txt  # test data
+test_ctr_path=./sample_data/BR_ctr_info.txt      # test data
+out_ctr_model_folder=./sample_data/models_ctr_${country}
+
+bert_name=neuralmind/bert-base-portuguese-cased
+if [[ "$country" == "ID" ]]
+then
+    bert_name=cahya/distilbert-base-indonesian
+elif [[ "$country" == "MY" ]]
+then
+    bert_name=cahya/distilbert-base-indonesian
+elif [[ "$country" == "SG" ]]
+then
+    bert_name=cahya/distilbert-base-indonesian
+elif [[ "$country" == "TW" ]]
+then
+    bert_name=uer/chinese_roberta_L-6_H-768
+elif [[ "$country" == "BR" ]]
+then
+    bert_name=neuralmind/bert-base-portuguese-cased
+elif [[ "$country" == "PH" ]]
+then
+    bert_name=jcblaise/bert-tagalog-base-cased
+elif [[ "$country" == "VN" ]]
+then
+    bert_name=trituenhantaoio/bert-base-vietnamese-uncased
+elif [[ "$country" == "TH" ]]
+then
+    bert_name=monsoon-nlp/bert-base-thai
+fi
+echo ${bert_name}
+
+python -u train_noquery_nobasic_speed_sim2.py \
+    --title-path ${title_path} \
+    --npy-folder ${nlp_feature_folder} \
+    --fc-hidden-size 32 \
+    --pred-outpath ${pred_out_path} \
+    --test-title-path ${test_title_path} \
+    --ctr-path ${ctr_path} \
+    --test-ctr-path ${test_ctr_path} \
+    --checkpoint-path ${model_path} \
+    --checkpoint-flag v4 \
+    --batch-size 1024 \
+    --workers 4 \
+    --epoches 1 \
+    --learning-rate 0.0 \
+    --lr-attention 0.0005 \
+    --model-folder ${out_ctr_model_folder} \
+    --print-freq 10 \
+    --split 10 \
+    --eval-freq 0.1 \
+    --his-browse-num 30 \
+    --his-add-num 10 \
+    --his-buy-num 10 \
+    --his-sim-num 150 \
+    --fix-bert \
+    --bert-model ${bert_name} \
+    --max-seq-len 120
+
 ```
