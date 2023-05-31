@@ -21,7 +21,7 @@ The network structure of BAIU
 
 
 ## Download data
-1. KDD public data set can be download from this [link](https://www.kaggle.com/c/kddcup2012-track2).
+1. KDD public data set can be download from this [link](https://www.kaggle.com/c/kddcup2012-track2). Because we have preprocessed KDD public data to extract item and user information, we suggest to download KDD data set from this [link](https://drive.google.com/file/d/1Qg8xtjSE6ryQC2uxjKnATb7MMTJ-DcJT/view?usp=share_link)
 2. NLP features for KDD public data set can be download from these following links:
 * BAIU NLP features is [here](https://drive.google.com/file/d/1A29WTDiHndC9yRnuCsLtyWSSSAC_gWqG/view?usp=share_link).
 * word2vec embeddings is [here](https://drive.google.com/file/d/1y2IsGhrGK6JN7Obc6BDPJ8eRvtokggN7/view?usp=share_link).
