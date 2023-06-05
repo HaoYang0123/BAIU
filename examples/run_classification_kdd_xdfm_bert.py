@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import argparse
 import json
 import os
 import copy
@@ -15,7 +16,7 @@ sys.path.insert(0, '..')
 from deepctr_torch.inputs import SparseFeat, DenseFeat, get_feature_names
 #from deepctr_torch.models.deepfm import DeepFM
 #from deepctr_torch.models.wdl import WDL
-from deepctr_torch.models.xdeepfm_bert import xDeepFM
+from deepctr_torch.models.xdeepfm_bert_baiu import xDeepFM
 
 def _load_title(path, tokenid2new_id, tokenizer):
     id2id_list = {}
@@ -54,23 +55,41 @@ def load_user_session(user_path):
     return userid2ad_list
 
 if __name__ == "__main__":
-    input_path = sys.argv[1]
-    gpu_id = int(sys.argv[2]) if len(sys.argv) > 2 else -1
-    outpath = sys.argv[3] if len(sys.argv) > 3 else "pred_tmp.txt"
+    param = argparse.ArgumentParser(description='Run kdd data')
+    param.add_argument("--input_path", type=str,
+                       default=r"track2/training.csv", help="input path of training.csv")
+    param.add_argument("--gpu_id", type=int,
+                       default=-1, help="gpu id (not used)")
+    param.add_argument("--outpath", type=str,
+                       default=r"pred.txt", help="outpath")
+    param.add_argument("--nlp_feature_folder", type=str,
+                       default=r"", help="nlp folder")
+    param.add_argument("--user_ad_path", type=str,
+                       default=r"track2/userid_adid_merge.txt", help="user ad path")
+    config = param.parse_args()
+    input_path = config.input_path
+    gpu_id = config.gpu_id
+    outpath = config.outpath
+    nlp_folder = config.nlp_feature_folder
+    if not os.path.exists(nlp_folder):
+        print("input nlp feature folder not exists", nlp_folder)
+        sys.exit(-1)
+    title_npy_folder = os.path.join(nlp_folder, "title")
+    query_npy_folder = os.path.join(nlp_folder, "query")
+    des_npy_folder = os.path.join(nlp_folder, "des")
+    if not os.path.exists(title_npy_folder) or not os.path.exists(query_npy_folder) or not os.path.exists(des_npy_folder):
+        print("input nlp title/query/des folder not exists")
+        sys.exit(-1)
+    user_ad_path = config.user_ad_path
+    if not os.path.exists(user_ad_path):
+        print("input user ad path not exists", user_ad_path)
+        sys.exit(-1)
+
     print("GPU_ID", gpu_id)
     print("outpath", outpath)
     sparse_features = ['C' + str(i) for i in range(1, 13)]
 
     bert_model_name = "bert-base-uncased"
-    # checkpoint_path = "/data/apple.yang/ctr/kdd_2012/models/base/nlp_lm_checkpoint_0.pt"
-    # tokenid_hash_path = "/data/apple.yang/ctr/kdd_2012/track2/tokenid2bertid.json"
-    # titleid_path = "/data/apple.yang/ctr/kdd_2012/track2/titleid_tokensid.txt"
-    # queryid_path = "/data/apple.yang/ctr/kdd_2012/track2/queryid_tokensid.txt"
-    # desid_path = "/data/apple.yang/ctr/kdd_2012/track2/descriptionid_tokensid.txt"
-    title_npy_folder = "/data/apple.yang/ctr/kdd_2012/embedding/title"
-    query_npy_folder = "/data/apple.yang/ctr/kdd_2012/embedding/query"
-    des_npy_folder = "/data/apple.yang/ctr/kdd_2012/embedding/des"
-    user_ad_path = "/data/apple.yang/ctr/kdd_2012/track2/userid_adid_merge.txt"
 
     userid2ad_list = load_user_session(user_ad_path)
     print("#users", len(userid2ad_list))
