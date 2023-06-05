@@ -84,14 +84,24 @@ Step3. To train CTR model with NLP features:
 
 set -x
 cd examples
-train_path=$1  # kdd_2012/track2/training.csv
-outpath=$2     # ./pred.txt
+train_path=$1          # kdd_2012/track2/training.csv
+outpath=$2             # ./pred.txt
+nlp_feature_folder=$3  # embedding
+user_ad_path=$4        # kdd_2012/track2/userid_adid_merge.txt
 
 # Run Wide & Deep model
-python -u run_classification_kdd_wd_bert.py ${train_path} -1 ${outpath}
-
+python -u run_classification_kdd_wd_bert.py \
+        --input_path ${train_path} \
+        --outpath ${outpath} \
+        --nlp_feature_folder ${nlp_feature_folder} \
+        --user_ad_path ${user_ad_path}
+        
 # Run xDeepFM model
-python -u run_classification_kdd_xdfm_bert.py ${train_path} -1 ${outpath}
+python -u run_classification_kdd_xdfm_bert.py \
+        --input_path ${train_path} \
+        --outpath ${outpath} \
+        --nlp_feature_folder ${nlp_feature_folder} \
+        --user_ad_path ${user_ad_path}
 ```
 
 Step4. To evaluate the AUC and RIG 
