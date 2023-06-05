@@ -14,7 +14,7 @@ import sys
 sys.path.insert(0, '..')
 from deepctr_torch.inputs import SparseFeat, DenseFeat, get_feature_names
 #from deepctr_torch.models.deepfm import DeepFM
-from deepctr_torch.models.wdl_bert import WDL
+from deepctr_torch.models.wdl_bert_baiu import WDL
 
 def _load_title(path, tokenid2new_id, tokenizer):
     id2id_list = {}
@@ -62,11 +62,7 @@ if __name__ == "__main__":
     sparse_features = ['C' + str(i) for i in range(1, 13)]
 
     bert_model_name = "bert-base-uncased"
-    # checkpoint_path = "/data/apple.yang/ctr/kdd_2012/models/base/nlp_lm_checkpoint_0.pt"
-    # tokenid_hash_path = "/data/apple.yang/ctr/kdd_2012/track2/tokenid2bertid.json"
-    # titleid_path = "/data/apple.yang/ctr/kdd_2012/track2/titleid_tokensid.txt"
-    # queryid_path = "/data/apple.yang/ctr/kdd_2012/track2/queryid_tokensid.txt"
-    # desid_path = "/data/apple.yang/ctr/kdd_2012/track2/descriptionid_tokensid.txt"
+    
     title_npy_folder = "/data/apple.yang/ctr/kdd_2012/embedding/title"
     query_npy_folder = "/data/apple.yang/ctr/kdd_2012/embedding/query"
     des_npy_folder = "/data/apple.yang/ctr/kdd_2012/embedding/des"
