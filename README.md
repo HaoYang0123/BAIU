@@ -29,7 +29,7 @@ The network structure of BAIU
 
 
 ## Training new models for public KDD data
-Step1. To train BERT models with LM loss, note that you have downloaded the BAIU NLP features, then Step1 and Step2 are not needed: 
+Step1. To train BERT models with LM loss, note that if you have downloaded the BAIU NLP features, then Step1 and Step2 are not needed: 
 ```bash
 #!/bin/bash
 
