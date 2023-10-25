@@ -1,5 +1,6 @@
 ## BAIU
 
+We have proposed a BERT Attention network fusing Item and User NLP features into CTR task. The title of this work is "Practice on Effectively Extracting NLP Features for Click-Through Rate Prediction", which is published in cikm-2023. The paper can be downloaded from thisn [link](https://dl.acm.org/doi/10.1145/3583780.3614707). 
 We use the [DeepCTR-Torch public model](https://github.com/shenweichen/DeepCTR-Torch), and add BERT/NLP sub-models into this module. 
 
 
